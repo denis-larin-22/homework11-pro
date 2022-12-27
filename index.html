@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        function math(a, b, c) {
+            return a + b - c;
+        }
+
+        function makeCaching(f) {
+            let cache = {};
+
+            return function (...args) {
+                let key = args.join(' ');
+
+                if (!(key in cache)) {
+                    cache[key] = f.apply(this, args);
+
+                    let keyArr = Object.keys(cache);
+                    if (keyArr.length > 5) delete cache[keyArr[0]];
+                }
+
+                return cache[key];
+            };
+        }
+
+        math = makeCaching(math);
+
+    </script>
+</body>
+
+</html>
